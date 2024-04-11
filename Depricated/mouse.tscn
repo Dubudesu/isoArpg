@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://8svl564o783x"]
+
+[ext_resource type="Script" path="res://Depricated/Mouse.gd" id="1_ubq3y"]
+[ext_resource type="Texture2D" uid="uid://dxknvmqknbyjq" path="res://Art/mouse_01.png" id="2_aa1f4"]
+
+[node name="Mouse" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_ubq3y")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(6, 6)
+texture = ExtResource("2_aa1f4")

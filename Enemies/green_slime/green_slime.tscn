@@ -1,0 +1,101 @@
+[gd_scene load_steps=10 format=3 uid="uid://b13kv0hgiu2td"]
+
+[ext_resource type="Script" path="res://Enemies/green_slime/green_slime.gd" id="1_nw8wm"]
+[ext_resource type="Texture2D" uid="uid://d07yyvfddmhtv" path="res://Art/slime_green.png" id="2_lbnfn"]
+[ext_resource type="Script" path="res://Enemies/green_slime/Slime_FSM.gd" id="3_ov73u"]
+[ext_resource type="Script" path="res://Components/ChaseComponent.gd" id="5_kg3je"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r6q0w"]
+radius = 6.0
+
+[sub_resource type="Animation" id="Animation_d5csy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_8wo1e"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_obeir"]
+_data = {
+"RESET": SubResource("Animation_d5csy"),
+"idle": SubResource("Animation_8wo1e")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l10bk"]
+radius = 98.0204
+
+[node name="GreenSlime" type="CharacterBody2D"]
+light_mask = 2
+visibility_layer = 5
+z_as_relative = false
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_nw8wm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_lbnfn")
+hframes = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 0
+position = Vector2(0, 6)
+scale = Vector2(1, 0.5)
+shape = SubResource("CircleShape2D_r6q0w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_obeir")
+}
+
+[node name="StateLabel" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 11
+text = "State"
+
+[node name="Slime_FSM" type="Node" parent="."]
+script = ExtResource("3_ov73u")
+
+[node name="ChaseComponent" type="Area2D" parent="."]
+script = ExtResource("5_kg3je")
+detectRange = 150
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseComponent"]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_l10bk")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="body_entered" from="ChaseComponent" to="ChaseComponent" method="_on_body_entered"]
+[connection signal="body_exited" from="ChaseComponent" to="ChaseComponent" method="_on_body_exited"]

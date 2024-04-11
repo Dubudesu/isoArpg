@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2ghprtyrufpd"]
+
+[ext_resource type="Script" path="res://Depricated/player_movement.gd" id="1_d07dt"]
+[ext_resource type="Texture2D" uid="uid://d2pmttpug0awi" path="res://icon.svg" id="2_0cyvo"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xld3h"]
+radius = 61.0
+height = 132.0
+
+[sub_resource type="Animation" id="Animation_cx6jn"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:offset:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2d:offset:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, -5, 0.25, 0, 0, -0.25, 0, 0.25, 10, 0, -0.25, -5, 0.25, 5),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
+[sub_resource type="Animation" id="Animation_cgsny"]
+resource_name = "attack_default"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(25, 0), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_345e4"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fgqw7"]
+_data = {
+"Idle": SubResource("Animation_cx6jn"),
+"attack_default": SubResource("Animation_cgsny"),
+"walk": SubResource("Animation_345e4")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_d07dt")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+texture = ExtResource("2_0cyvo")
+offset = Vector2(0, 0.380489)
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xld3h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+method_call_mode = 1
+libraries = {
+"": SubResource("AnimationLibrary_fgqw7")
+}

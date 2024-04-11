@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://bx1s0duhcfy2"]
+
+[ext_resource type="Script" path="res://Depricated/slime_green.gd" id="1_fvcxs"]
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="2_8byhb"]
+[ext_resource type="Texture2D" uid="uid://d07yyvfddmhtv" path="res://Art/slime_green.png" id="3_ecctj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qbbwc"]
+resource_local_to_scene = true
+shader = ExtResource("2_8byhb")
+shader_parameter/color = Color(0, 0.764706, 0.917647, 1)
+shader_parameter/width = 0.0
+shader_parameter/pattern = 0
+shader_parameter/inside = true
+shader_parameter/add_margins = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ududh"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrc6u"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03e5v"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1fl0"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80rnr"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tu1yr"]
+atlas = ExtResource("3_ecctj")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0qgm7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ududh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrc6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03e5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1fl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80rnr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tu1yr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7g0ac"]
+radius = 4.0
+height = 16.0
+
+[node name="Slime_green" type="Area2D"]
+script = ExtResource("1_fvcxs")
+
+[node name="Sprite2d" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_qbbwc")
+sprite_frames = SubResource("SpriteFrames_0qgm7")
+speed_scale = 2.0
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(1, 4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_7g0ac")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="mouse_entered" from="." to="." method="_on_slime_green_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_slime_green_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

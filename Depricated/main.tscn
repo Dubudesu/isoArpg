@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cja3iqknqohng"]
+
+[ext_resource type="PackedScene" uid="uid://bepr76ejtdrql" path="res://Depricated/map01.tscn" id="1_l7w8k"]
+[ext_resource type="PackedScene" uid="uid://b2ghprtyrufpd" path="res://Depricated/player.tscn" id="2_jbl87"]
+[ext_resource type="PackedScene" uid="uid://bx1s0duhcfy2" path="res://Depricated/slime_green.tscn" id="3_0q3ea"]
+[ext_resource type="Script" path="res://Depricated/Button.gd" id="4_cmbgi"]
+
+[node name="main" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_l7w8k")]
+y_sort_enabled = true
+layer_0/y_sort_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2_jbl87")]
+scale = Vector2(0.125, 0.125)
+
+[node name="Camera2d" type="Camera2D" parent="Player"]
+zoom = Vector2(4, 4)
+
+[node name="Slime_green" parent="." instance=ExtResource("3_0q3ea")]
+position = Vector2(100, 0)
+
+[node name="Slime_green2" parent="." instance=ExtResource("3_0q3ea")]
+position = Vector2(55, 33)
+
+[node name="Button" type="Button" parent="."]
+offset_left = -134.0
+offset_top = -43.0
+offset_right = -73.0
+offset_bottom = -9.0
+text = "CLICK"
+script = ExtResource("4_cmbgi")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_button_pressed"]
